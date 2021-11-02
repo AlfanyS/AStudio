@@ -1,21 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Windows.Input;
 using System.Windows.Media;
 using AStudio.Commands;
 using AStudio.Models;
-using DirectShowLib;
 using Microsoft.Win32;
 using AStudio.Views;
-using System.Threading.Tasks;
-using System.IO;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.Windows.Interop;
-using System.Windows.Media.Imaging;
 
 namespace AStudio.VM
 {
