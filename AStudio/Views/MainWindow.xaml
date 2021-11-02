@@ -1,0 +1,144 @@
+﻿<Window x:Class="AStudio.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AStudio"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:vm="clr-namespace:AStudio.VM"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="610" Width="1100" WindowStyle="None"
+        ResizeMode="NoResize"  Background="Transparent" AllowsTransparency="True">
+    <Window.DataContext>
+        <vm:MainVM/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Border Background="#747687" Grid.ColumnSpan="2" Grid.RowSpan="2"
+                CornerRadius="10"/>
+        <!--Application Header-->
+        <Grid Grid.ColumnSpan="2" MouseDown="GridClick_DragMoveWindow">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <!--Header background-->
+            <Border Background="#373D58" Grid.ColumnSpan="4"
+                CornerRadius="10 10 0 0"/>
+
+            <TextBlock Grid.Column="0" Margin="10,0,0,0" Foreground="White"
+                       FontFamily="Fonts/Montserrat/#Montserrat-Bold"
+                       HorizontalAlignment="Left" VerticalAlignment="Center"
+                       Text="AStudio"/>
+
+            <Button Grid.Column="3" Width="35" Height="20" Style="{StaticResource mainButtons}"
+                    HorizontalAlignment="Right" Margin="0,0,5,0" Command="{Binding CloseCommand}">
+                <Image Source="/Icons/Close.png"/>
+            </Button>
+            <Button Grid.Column="3" Width="35" Height="20" Style="{StaticResource mainButtons}"
+                    HorizontalAlignment="Right" Margin="0,0,45,0" Command="{Binding MinimizeCommand}">
+                <Image Source="/Icons/Minimize.png"/>
+            </Button>
+        </Grid>
+
+        <!--Left main part-->
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Foreground="#F1F1E6"
+                       FontFamily="/AStudio;component/Fonts/Montserrat/#Montserrat ExtraBold"
+                       FontSize="20" Grid.ColumnSpan="2" Grid.Row="0"
+                       HorizontalAlignment="Center" VerticalAlignment="Top"
+                       Text="Преобразовать картинку в ASCII"/>
+            
+            <TextBlock Text="Открыть изображение" Grid.Column="0" Grid.Row="1"
+                       Foreground="#F1F1E6"
+                       FontFamily="/AStudio;component/Fonts/Montserrat/#Montserrat ExtraBold"
+                       FontSize="15" Margin="30,0,0,0"
+                       HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <Button Content="Открыть.." Width="100" Command="{Binding OpenFileCommand}"
+                    Grid.Row="1" Grid.Column="1"/>
+
+            <Expander Header="Текущее изображение" Grid.ColumnSpan="2" Grid.Row="2" HorizontalAlignment="Center"
+                      VerticalAlignment="Center" Foreground="#F1F1E6" Margin="0 10 0 0"
+                      FontFamily="/AStudio;component/Fonts/Montserrat/#Montserrat ExtraBold"
+                      FontSize="15" IsExpanded="True">
+                <Image  MaxHeight="190" 
+                   MaxWidth="450" MinHeight="10" Source="{Binding Image,UpdateSourceTrigger=PropertyChanged}"/>
+            </Expander>
+
+            <Button Content="START" Style="{StaticResource startButton}"
+                    Grid.ColumnSpan="2" Grid.Row="3" Height="30" Width="100"
+                    VerticalAlignment="Bottom" Margin="0,10,0,0" Command="{Binding VisualizeFileCommand}"/>
+            
+            <Expander Header="Общие настройки" Grid.Row="5" Grid.ColumnSpan="2" Margin="0,20,0,0"
+                      HorizontalAlignment="Center" Foreground="#F1F1E6"
+                      FontFamily="/AStudio;component/Fonts/Montserrat/#Montserrat ExtraBold"
+                      FontSize="15" IsExpanded="True">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Режим маштабирования" Grid.Column="0" Grid.Row="0"
+                       Margin="10,5,10,0" HorizontalAlignment="Left"/>
+                    <ComboBox Name="ScaleSelector" Grid.Column="1" Grid.Row="0" Height="25" Width="100"
+                      VerticalAlignment="Top" Margin="0,5,0,0"  SelectedItem="{Binding ResizeMode}">
+                        <System:String >Reduce</System:String>
+                        <System:String >Resize</System:String>
+                    </ComboBox>
+                    <TextBlock Text="Коэф маштабирования" Grid.Column="0" Grid.Row="1"
+                       Margin="10,5,0,0" HorizontalAlignment="Left"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" Height="25" Width="100" MaxLength="5"
+                     VerticalAlignment="Top" Margin="0,5,0,0" Text="{Binding Offset,UpdateSourceTrigger=LostFocus}"/>
+                    <TextBlock Text="Макс ширина" Grid.Column="0" Grid.Row="2"
+                       Margin="10,5,0,0" HorizontalAlignment="Left"/>
+                    <TextBox Grid.Column="1" Grid.Row="2" Height="25" Width="100" MaxLength="5"
+                     VerticalAlignment="Top" Margin="0,5,0,0" Text="{Binding MaxWidth,UpdateSourceTrigger=LostFocus}">
+                        <TextBox.Style>
+                            <Style TargetType="TextBox">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=ScaleSelector, Path=SelectedItem}"
+                                         Value="Reduce">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+                </Grid>
+            </Expander>
+        </Grid>
+        <!--Right main part-->
+        <Grid Grid.Row="1" Grid.Column="1">
+            
+        </Grid>
+    </Grid>
+</Window>
